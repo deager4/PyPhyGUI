@@ -4,7 +4,14 @@
  */
 package org.entrocorp.pyphygui.main;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.entrocorp.pyphygui.communication.Communicator;
 import org.entrocorp.pyphygui.world.World;
 
@@ -27,6 +34,10 @@ public class PyPhyGUI {
         comm = new Communicator();
         world = new World();
     }
+    
+    private static ServerSocket server;
+    
+    private static Socket socket = null;
     
     /**
      * Returns the current world being modeled.
@@ -76,12 +87,36 @@ public class PyPhyGUI {
             // Unix based
             runPyPhyCommand = "";
         }
-        try {
-            Runtime.getRuntime().exec(runPyPhyCommand);
-        } catch (IOException ex) {
-            System.err.println("Failed to run pyPhy using command " + runPyPhyCommand + ".  IOException: " + ex);
-        }
+//        try {
+//            Runtime.getRuntime().exec(runPyPhyCommand);
+//        } catch (IOException ex) {
+//            System.err.println("Failed to run pyPhy using command " + runPyPhyCommand + ".  IOException: " + ex);
+//        }
         
-        //TODO: setup GUI   
+        // For testing
+        try {
+            server = new ServerSocket(5275);
+            while (true) {
+                socket = server.accept();
+                if (socket != null) {
+                    break;
+                }
+            }
+            BufferedReader reader = new BufferedReader( new InputStreamReader(socket.getInputStream()));
+
+            String sentText = null;
+            while(true) {
+                sentText = reader.readLine();
+                if (sentText != null) {
+                    System.out.println(sentText);
+                    break;
+                }
+            }
+
+            PrintWriter writer = new PrintWriter(socket.getOutputStream());
+            writer.println("Testing");
+        } catch (IOException ex) {
+            System.err.println(ex);
+        }
     }
 }

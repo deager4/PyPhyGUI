@@ -4,6 +4,10 @@
  */
 package org.entrocorp.pyphygui.communication;
 
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
+
 /**
  * Insert class description here
  *
@@ -11,5 +15,12 @@ package org.entrocorp.pyphygui.communication;
  * Created Aug 20, 2012
  */
 public class Communicator {
+    
+    ServerSocket server;
+    Socket socket;
+    
+    public Communicator() {
+     
+    }
     
 }
