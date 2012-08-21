@@ -1,5 +1,4 @@
-/*
- * To change this template, choose Tools | Templates
+/* To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
 package org.entrocorp.pyphygui.main;
@@ -22,16 +21,24 @@ import org.entrocorp.pyphygui.world.World;
  */
 public class PyPhyGUI {
     
-    // Used to communicate with the python section
+    public static final boolean DEBUG = true;
+    
+    /**
+     * Used to communicate with the python section of the program.
+     */
     public static final Communicator comm;
+    
+    static {
+        // Setup the communicator object
+        // Communicator's constructor, in addition to initailizing the object,
+        // runs and waits to establish a connection with the python section of
+        // the program.
+        System.out.println("Setting up Communicator");
+        comm = new Communicator();
+    }
     
     // Models the current world containing only the information necessary to render it
     private static World world;
-    
-    static {
-        comm = new Communicator();
-        world = new World();
-    }
     
     private static ServerSocket server;
     
@@ -63,7 +70,7 @@ public class PyPhyGUI {
      * to the loaded world, and returns it.
      * 
      * @param path The path to the world to load.
-     * @return Thw world that was just loaded, now the results of calling getWorld().
+     * @return The world that was just loaded, now the results of calling getWorld().
      */
     public static World loadWorld(String path) {
         // TODO: implement this
@@ -76,45 +83,98 @@ public class PyPhyGUI {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        String os = System.getProperty("os.name").toLowerCase();
-        String runPyPhyCommand;
-        if (os.indexOf("win") > 0) {
-            // Windows
-            runPyPhyCommand = "";
-        } else {
-            // Unix based
-            runPyPhyCommand = "python /Users/karlnotturno/Desktop/PyPhy/src/__main__.py";
-        }
+        comm.start();
+        
+        // TODO: Setup GUI
+/*
+        
         try {
-            Runtime.getRuntime().exec(runPyPhyCommand);
+        	
+        	Process proc = Runtime.getRuntime().exec(runPyPhyCommand);
+        	 try {
+        	 proc.waitFor();
+        	 } catch (InterruptedException ex) {
+        	 System.err.println(ex);
+        	 }
+        	 String pythonReturn = "";
+        	 String line;
+        	 BufferedReader reader = new BufferedReader (new InputStreamReader (proc.getInputStream()));
+        	 while(true) {
+        	 line = reader.readLine();
+        	 if (line == null) {
+        	 break;	
+        	 }
+        	 pythonReturn += (line + "\n");
+        	 }
+        	 reader.close();
+        	 System.out.println(pythonReturn);
+        	 
         } catch (IOException ex) {
             System.err.println("Failed to run pyPhy using command " + runPyPhyCommand + ".  IOException: " + ex);
         }
+*/
         
         // For testing
-        try {
-            server = new ServerSocket(5275);
-            while (true) {
-                socket = server.accept();
-                if (socket != null) {
-                    break;
-                }
-            }
-            BufferedReader reader = new BufferedReader( new InputStreamReader(socket.getInputStream()));
-
-            String sentText = null;
-            while(true) {
-                sentText = reader.readLine();
-                if (sentText != null) {
-                    System.out.println(sentText);
-                    break;
-                }
-            }
-
-            PrintWriter writer = new PrintWriter(socket.getOutputStream());
-            writer.println("Testing");
-        } catch (IOException ex) {
-            System.err.println(ex);
-        }
-    }
+//        try {
+//            server = new ServerSocket(5275);
+//            System.out.println("SERVER CREATED");
+//            
+//            try {
+//            	Process proc = Runtime.getRuntime().exec(runPyPhyCommand);
+//            	 try {
+//                    proc.waitFor();
+//            	 } catch (InterruptedException ex) {
+//                    System.err.println(ex);
+//            	 }
+//                 
+//            	 String pythonReturn = "";
+//            	 String line;
+//            	 BufferedReader reader = new BufferedReader (new InputStreamReader (proc.getInputStream()));
+//            	 while(true) {
+//                    line = reader.readLine();
+//                    if (line == null) {
+//                        break;	
+//                    }
+//                    pythonReturn += (line + "\n");
+//            	 }
+//            	 reader.close();
+//            	 System.out.println(pythonReturn); 
+//            } catch (IOException ex) {
+//                System.err.println("Failed to run pyPhy using command " + runPyPhyCommand + ".  IOException: " + ex);
+//            }
+//
+//            
+//            while(true) {
+//                socket = server.accept();
+//                if (socket != null) {
+//                    break;
+//                }
+//            }
+//            server.close();
+//            BufferedReader reader = new BufferedReader( new InputStreamReader(socket.getInputStream()));
+//
+//            String sentText = null;
+//            while(true) {
+//                sentText = reader.readLine();
+//                if (sentText != null) {
+//                    System.out.println(sentText);
+//                    break;
+//                }
+//            }
+//
+//            PrintWriter writer = new PrintWriter(socket.getOutputStream());
+//            writer.println("Testing");
+//            writer.flush();
+//            writer.close();
+//            
+//        } catch (IOException ex) {
+//            System.err.println(ex);
+//        } finally {
+//            try {
+//                server.close();
+//            } catch (Exception e) {
+//                System.err.println("Failed to close server");
+//            }
+//        }
+    } 
 }
