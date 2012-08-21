@@ -1,4 +1,15 @@
 #################
+## Netbeans - added by Nick
+#################
+
+build/
+dist/
+build.xml
+lib/
+manifest.mf
+nbproject/
+
+#################
 ## Eclipse
 #################
 
