@@ -85,13 +85,13 @@ public class PyPhyGUI {
             runPyPhyCommand = "";
         } else {
             // Unix based
-            runPyPhyCommand = "";
+            runPyPhyCommand = "python /Users/karlnotturno/Desktop/PyPhy/src/__main__.py";
         }
-//        try {
-//            Runtime.getRuntime().exec(runPyPhyCommand);
-//        } catch (IOException ex) {
-//            System.err.println("Failed to run pyPhy using command " + runPyPhyCommand + ".  IOException: " + ex);
-//        }
+        try {
+            Runtime.getRuntime().exec(runPyPhyCommand);
+        } catch (IOException ex) {
+            System.err.println("Failed to run pyPhy using command " + runPyPhyCommand + ".  IOException: " + ex);
+        }
         
         // For testing
         try {
