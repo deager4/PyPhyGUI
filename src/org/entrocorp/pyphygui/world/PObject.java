@@ -12,4 +12,37 @@ package org.entrocorp.pyphygui.world;
  */
 public class PObject {
     
+    /**
+     * Point representing the top, left, front corner of this box
+     */
+    public Point corner;
+    
+    /**
+     * Dimensions of this box
+     */
+    public Dimension dimension;
+    
+    // TODO: rotation
+    
+    public PObject() {
+        this(new Point(), new Dimension());
+    }
+    
+    public PObject(Point corner) {
+        this(corner, new Dimension());
+    }
+    
+    public PObject(Dimension dimension) {
+        this(new Point(), dimension);
+    }
+    
+    public PObject(Point corner, Dimension dimension) {
+        this.corner = corner.copy();
+        this.dimension = dimension.copy();
+    }
+    
+    public PObject copy() {
+        return new PObject(corner, dimension);
+    }
+    
 }

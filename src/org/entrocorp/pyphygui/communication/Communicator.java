@@ -22,6 +22,11 @@ import static org.entrocorp.pyphygui.main.PyPhyGUI.DEBUG;
  */
 public class Communicator extends Thread {
     
+    /**
+     * String used to delimit messages sent to PyPhy
+     */
+    private static final String DELIMITER = "\n";
+    
     Socket pyPhySocket;
     BufferedReader input;
     PrintWriter output;
@@ -136,7 +141,7 @@ public class Communicator extends Thread {
                 if (DEBUG) {
                     System.out.println("Sending message: " + messageToSend);
                 }
-                output.println(messageToSend);
+                output.print(messageToSend + DELIMITER);
                 messageToSend = messages.poll();
             }
             output.flush();
