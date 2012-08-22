@@ -10,7 +10,7 @@ ex. new object 1 0 5 0 10 10 10 0 90 45
 Moving an object:
 move id xmodifier ymodifier zmodifier
 >>> move the object with the given id as specified by the modifiers; this command modifies the object's existing location instead of setting the location
-ex. move 1 0 -2 5
+ex. move 1 0 -2 5 means add 0 to x, -2 to y, and 5 to z
 
 Setting an object's location:
 moveto id [options]
@@ -26,7 +26,7 @@ ex. move 3
 Resizing an Object:
 resize id widthmodifier heightmodifier depthmodifier
 >>> resize the object with the given id by the specified modifiers; this command modifies the object's existing size instead of setting its size
-ex. resize 1 0 5 -10
+ex. resize 1 0 5 -10 means add 0 to width, 5 to height, and -10 to depth
 
 Setting an Object's size:
 setsize id [options]
@@ -44,7 +44,7 @@ rotate id r1modifier r2modifier r3modifier
 >>> rotate the object with the given id as specified by the modifiers; this command modifies the object's existing rotation instead of setting the rotation
 ex. rotate 14 36 0 -792 means add 36 to r1, 0 to r2, and -45 to r3
 
-Setting an Object Rotation:
+Setting an Object's Rotation:
 setrotation id [options]
 optional params:
 -r1 - new r1
