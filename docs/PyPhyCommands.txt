@@ -1,0 +1,55 @@
+Commands sent from PyPhyGUI to PyPhy:
+
+id is a positive integer unique to each object that is used as an identifier for objects when communicating between programs
+
+Creating a new Object:
+new object id x y z width height depth r1 r2 r3
+>>> construct an object with the given id at the given position and with the given dimensions and rotation
+ex. new object 1 0 5 0 10 10 10 0 90 45
+
+Moving an object:
+move id xmodifier ymodifier zmodifier
+>>> move the object with the given id as specified by the modifiers; this command modifies the object's existing location instead of setting the location
+ex. move 1 0 -2 5
+
+Setting an object's location:
+moveto id [options]
+optional params:
+-x - new x-coordinate
+-y - new y-coordinate
+-z - new z-coordinate
+>>> move the object with the given id to the newly given coordinates
+ex. move 1 -y 5 -x 24 -z 0
+ex. move 2 -x 6
+ex. move 3 
+
+Resizing an Object:
+resize id widthmodifier heightmodifier depthmodifier
+>>> resize the object with the given id by the specified modifiers; this command modifies the object's existing size instead of setting its size
+ex. resize 1 0 5 -10
+
+Setting an Object's size:
+setsize id [options]
+optional params:
+-w - new width
+-h - new height
+-d - new depth
+>>> resize the object with the given id such that is has the given dimensions
+ex. setsize 3 -w 25 -h 1
+ex. setsize 1 -d 2 -w 1 -h 1
+ex. setsize 5
+
+Rotating an Object:
+rotate id r1modifier r2modifier r3modifier
+>>> rotate the object with the given id as specified by the modifiers; this command modifies the object's existing rotation instead of setting the rotation
+ex. rotate 14 36 0 -792 means add 36 to r1, 0 to r2, and -45 to r3
+
+Setting an Object Rotation:
+setrotation id [options]
+optional params:
+-r1 - new r1
+-r2 - new r2
+-r3 - new r3
+>>> Set the object with the given id's rotation to the newly specified rotation
+ex. setrotation 2 -r2 50
+ex. setrotation 1 -r1 75 -r2 -72 -r3 1020
