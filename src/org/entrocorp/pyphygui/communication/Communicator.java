@@ -4,6 +4,7 @@
  */
 package org.entrocorp.pyphygui.communication;
 
+import java.io.InputStream;
 import java.util.Scanner;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -12,6 +13,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayDeque;
 import java.util.Queue;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import static org.entrocorp.pyphygui.main.PyPhyGUI.DEBUG;
 
 /**
@@ -26,10 +29,11 @@ public class Communicator extends Thread {
      * String used to delimit messages sent and received to/from PyPhy
      */
     private static final String DELIMITER = "|nln|";
-    private static final String DELIMITER_REGEX = ".*\\Q|nln|\\E";
+    private static final String DELIMITER_REGEX = "\\|nln\\|";
     
     Socket pyPhySocket;
     Scanner input;
+    InputStream inputStream;
     PrintWriter output;
     Queue<String> messages;
     
@@ -79,7 +83,9 @@ public class Communicator extends Thread {
         // Do initialization
         messages = new ArrayDeque();
         try {
-            input = new Scanner( new InputStreamReader( pyPhySocket.getInputStream() ) );
+            inputStream = pyPhySocket.getInputStream();
+            input = new Scanner( new InputStreamReader( inputStream ) );
+            input.useDelimiter(DELIMITER_REGEX);
         } catch (IOException ex) {
             System.err.println("Failed to create input stream from pyPhySocket."
                     + "Either an I/O error occurred when creating the input stream,"
@@ -120,14 +126,17 @@ public class Communicator extends Thread {
     @Override
     public void run() {
         System.out.println("Running Communicator Thread");
-        String receivedMessage;
         String messageToSend;
         while(true) {
-            // Read in all sent messages
-            while (input.hasNext(DELIMITER_REGEX)) {
-                receivedMessage = input.next(DELIMITER_REGEX);
-                receivedMessage = receivedMessage.substring(0, receivedMessage.length() - DELIMITER.length());
-                receivedMessage(receivedMessage);
+            try {
+                // Read in all sent messages
+                while (inputStream.available() > 0 && input.hasNext()) {
+                    // hasNext() is blocking when there isn't any data to read
+                    // so we first check whether there is any data available
+                    receivedMessage(input.next());
+                }
+            } catch (IOException ex) {
+                System.err.println("Failed while reading data.  IOException: " + ex);
             }
             
             // Send all queued messages to PyPhy
