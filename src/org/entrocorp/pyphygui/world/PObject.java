@@ -5,7 +5,7 @@
 package org.entrocorp.pyphygui.world;
 
 /**
- * Insert class description here
+ * A dimensional object
  *
  * @author Nick Nigro <nicholasnigro@yahoo.com>
  * Created Aug 20, 2012

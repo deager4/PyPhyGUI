@@ -27,7 +27,7 @@ public class Dimension {
     public int depth;
     
     public Dimension() {
-        this(0, 0, 0); // Might want to change this later
+        this(1, 1, 1); // Might want to change this later
     }
     
     public Dimension(int width, int height, int depth) {

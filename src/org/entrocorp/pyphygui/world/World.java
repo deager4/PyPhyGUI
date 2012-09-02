@@ -4,6 +4,7 @@
  */
 package org.entrocorp.pyphygui.world;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,4 +16,8 @@ import java.util.List;
 public class World {
     // All the object in this world
     List<PObject> objects;
+    
+    public World() {
+        objects = new ArrayList<PObject>();
+    }
 }

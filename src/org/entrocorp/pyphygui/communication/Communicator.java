@@ -4,7 +4,7 @@
  */
 package org.entrocorp.pyphygui.communication;
 
-import java.io.BufferedReader;
+import java.util.Scanner;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
@@ -23,12 +23,13 @@ import static org.entrocorp.pyphygui.main.PyPhyGUI.DEBUG;
 public class Communicator extends Thread {
     
     /**
-     * String used to delimit messages sent to PyPhy
+     * String used to delimit messages sent and received to/from PyPhy
      */
-    private static final String DELIMITER = "\n";
+    private static final String DELIMITER = "|nln|";
+    private static final String DELIMITER_REGEX = ".*\\Q|nln|\\E";
     
     Socket pyPhySocket;
-    BufferedReader input;
+    Scanner input;
     PrintWriter output;
     Queue<String> messages;
     
@@ -48,8 +49,8 @@ public class Communicator extends Thread {
         
         // Run PyPhy
         System.out.println("Attempting to run PyPhy (python section)");
-        // Currently only setup for Carl's computer
-        String command = "python /Users/karlnotturno/Desktop/PyPhy/src/__main__.py";
+        // Currently only setup for macs
+        String command = "python /Users/" + System.getProperty("user.name") + "/Desktop/PyPhy/src/__main__.py";
         try {
             Runtime.getRuntime().exec(command);
         } catch (IOException ex) {
@@ -78,7 +79,7 @@ public class Communicator extends Thread {
         // Do initialization
         messages = new ArrayDeque();
         try {
-            input = new BufferedReader( new InputStreamReader( pyPhySocket.getInputStream() ) );
+            input = new Scanner( new InputStreamReader( pyPhySocket.getInputStream() ) );
         } catch (IOException ex) {
             System.err.println("Failed to create input stream from pyPhySocket."
                     + "Either an I/O error occurred when creating the input stream,"
@@ -87,7 +88,8 @@ public class Communicator extends Thread {
             exit();
         }
         try {
-            output = new PrintWriter( pyPhySocket.getOutputStream() );
+            // Messages aren't sent if you don't pass true here (I'm not sure why) -Nick
+            output = new PrintWriter( pyPhySocket.getOutputStream(), true );
         } catch (IOException ex) {
             System.err.println("Failed to create output stream from pyPhySocket."
                     + "Either an I/O error occurred when creating the output stream"
@@ -121,21 +123,14 @@ public class Communicator extends Thread {
         String receivedMessage;
         String messageToSend;
         while(true) {
-            try {
-                // Read in all sent messages
-                // Messages must be delimited by a newline
-                receivedMessage = input.readLine();
-                while (receivedMessage != null) {
-                    receivedMessage(receivedMessage);
-                    receivedMessage = input.readLine();
-                }
-            } catch (IOException ex) {
-                System.err.println("Failure receiving message from PyPhy.");
-                System.err.println("IOException: " + ex);
+            // Read in all sent messages
+            while (input.hasNext(DELIMITER_REGEX)) {
+                receivedMessage = input.next(DELIMITER_REGEX);
+                receivedMessage = receivedMessage.substring(0, receivedMessage.length() - DELIMITER.length());
+                receivedMessage(receivedMessage);
             }
             
-            
-            // Send all queued messages to PyPhy (delimited by newlines)
+            // Send all queued messages to PyPhy
             messageToSend = messages.poll(); // Returns null if queue is empty
             while (messageToSend != null) {
                 if (DEBUG) {
