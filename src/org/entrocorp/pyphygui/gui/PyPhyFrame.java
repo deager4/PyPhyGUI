@@ -7,6 +7,8 @@ package org.entrocorp.pyphygui.gui;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import javax.swing.AbstractAction;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -46,6 +48,23 @@ public class PyPhyFrame extends JFrame {
                         close();
                     }
                 });
+        
+        // Listen for the window to close so we can end the python application when it does
+        addWindowListener( new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                quitPython();
+            }
+            
+            @Override
+            public void windowClosed(WindowEvent e) {
+                quitPython();
+            }
+            
+            private void quitPython() {
+                PyPhyGUI.comm.sendMessage("shutdown");
+            }
+        });
         
         // Setup GUI
         add(new AppPanel(), BorderLayout.CENTER);

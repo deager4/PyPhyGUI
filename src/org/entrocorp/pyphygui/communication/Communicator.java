@@ -13,8 +13,6 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayDeque;
 import java.util.Queue;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import static org.entrocorp.pyphygui.main.PyPhyGUI.DEBUG;
 
 /**
@@ -39,7 +37,7 @@ public class Communicator extends Thread {
     
     
     public Communicator() {
-        super();
+        super("PyPhyGUI Communicator");
         
         // Setup server
         System.out.println("Setting up server");

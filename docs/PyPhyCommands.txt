@@ -1,6 +1,13 @@
 Commands sent from PyPhyGUI to PyPhy:
 
-id is a positive integer unique to each object that is used as an identifier for objects when communicating between programs
+General Program Commands:
+shutdown
+>>> shutdown the python section of the program.  Don't worry about saving or anything like that- a separate command will be sent if that is needed
+
+save filename
+>>> save the current state of the engine to the file with the designated name, overwriting it if necessary
+
+* id is a positive integer unique to each object that is used as an identifier for objects when communicating between programs
 
 Creating a new Object:
 new object id x y z width height depth r1 r2 r3

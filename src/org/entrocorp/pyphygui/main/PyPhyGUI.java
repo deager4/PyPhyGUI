@@ -3,13 +3,11 @@
  */
 package org.entrocorp.pyphygui.main;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.net.ServerSocket;
-import java.net.Socket;
+import java.awt.event.ActionEvent;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.entrocorp.pyphygui.communication.Communicator;
+import org.entrocorp.pyphygui.gui.PyPhyFrame;
 import org.entrocorp.pyphygui.world.World;
 
 /**
@@ -22,6 +20,8 @@ import org.entrocorp.pyphygui.world.World;
 public class PyPhyGUI {
     
     public static final boolean DEBUG = true;
+    
+    public static int commandMask;
     
     /**
      * Used to communicate with the python section of the program.
@@ -39,10 +39,6 @@ public class PyPhyGUI {
     
     // Models the current world containing only the information necessary to render it
     private static World world;
-    
-    private static ServerSocket server;
-    
-    private static Socket socket = null;
     
     /**
      * Returns the current world being modeled.
@@ -83,9 +79,22 @@ public class PyPhyGUI {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        // Basic app setup
+        if (System.getProperty("os.name").toLowerCase().indexOf("mac") > 0) {
+            // If the app is running on the mac
+            commandMask = ActionEvent.META_MASK;
+            // Place the menu bar at the top of the screen
+            System.setProperty("apple.laf.useScreenMenuBar", "true");
+        } else {
+            commandMask = ActionEvent.CTRL_MASK;
+        }
+        
+        // Communications setup
+        comm.setDaemon(true);
         comm.start();
         comm.sendMessage("Testing");
         
-        // TODO: Setup GUI
+        // Setup GUI
+        new PyPhyFrame();
     } 
 }
