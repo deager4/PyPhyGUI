@@ -53,17 +53,14 @@ public class PyPhyFrame extends JFrame {
         addWindowListener( new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                quitPython();
+                PyPhyGUI.comm.quitPython();
             }
             
             @Override
             public void windowClosed(WindowEvent e) {
-                quitPython();
+                PyPhyGUI.comm.quitPython();
             }
             
-            private void quitPython() {
-                PyPhyGUI.comm.sendMessage("shutdown");
-            }
         });
         
         // Setup GUI

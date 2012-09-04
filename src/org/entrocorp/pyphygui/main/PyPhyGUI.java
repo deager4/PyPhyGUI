@@ -4,8 +4,6 @@
 package org.entrocorp.pyphygui.main;
 
 import java.awt.event.ActionEvent;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.entrocorp.pyphygui.communication.Communicator;
 import org.entrocorp.pyphygui.gui.PyPhyFrame;
 import org.entrocorp.pyphygui.world.World;

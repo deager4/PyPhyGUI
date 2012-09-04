@@ -13,6 +13,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayDeque;
 import java.util.Queue;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import static org.entrocorp.pyphygui.main.PyPhyGUI.DEBUG;
 
 /**
@@ -28,6 +30,8 @@ public class Communicator extends Thread {
      */
     private static final String DELIMITER = "|nln|";
     private static final String DELIMITER_REGEX = "\\|nln\\|";
+    
+    private boolean pythonRunning;
     
     Socket pyPhySocket;
     Scanner input;
@@ -68,6 +72,7 @@ public class Communicator extends Thread {
             System.err.println(ex);
             exit();
         }
+        pythonRunning = true;
         
         // Succesfully connected to PyPhy
         System.out.println("Successfully connected to PyPhy");
@@ -102,6 +107,25 @@ public class Communicator extends Thread {
         }
     }
 
+    public void quitPython() {
+        System.out.println("Quitting Python");
+        sendMessage("shutdown");
+        while (pythonRunning) {
+            try {
+                // This isn't best practice but it shouldn't be a big deal since
+                // this loop isn't run often
+                Thread.sleep(200);
+            } catch (InterruptedException ex) {
+                System.err.println("Error putting thread to sleep.  InterruptedException: " + ex);
+            }
+        }
+        try {
+            pyPhySocket.close(); // Also closes input and output streams
+        } catch (IOException ex) {
+            System.err.println("Failed to close pyPhySocket.  IOException: " + ex);
+        }
+    }
+    
     private void exit() {
         System.err.println("Exiting Program");
         System.exit(1);
