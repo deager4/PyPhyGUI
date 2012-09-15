@@ -5,8 +5,10 @@
 package org.entrocorp.pyphygui.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
+import org.entrocorp.pyphygui.main.PyPhyGUI;
 
 /**
  * Insert class description here
@@ -24,8 +26,7 @@ public class AppPanel extends JPanel {
         setLayout(new BorderLayout());
         
         // Setup display
-        JPanel topPanel = new JPanel();
-        
+        SimulationPanel simPanel = new SimulationPanel(PyPhyGUI.getWorld());
         
         // Setup Shell
         shell = new Shell();
@@ -34,7 +35,8 @@ public class AppPanel extends JPanel {
         splitpane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, true);
         splitpane.setDividerLocation(400);
         add(splitpane, BorderLayout.CENTER);
-        splitpane.setTopComponent(topPanel);
+        splitpane.setBackground(Color.WHITE);
+        splitpane.setTopComponent(simPanel);
         splitpane.setBottomComponent(shell);
     }
     

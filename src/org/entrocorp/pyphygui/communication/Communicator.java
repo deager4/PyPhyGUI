@@ -105,16 +105,6 @@ public class Communicator extends Thread {
     public void quitPython() {
         System.out.println("Quitting Python");
         sendMessage("shutdown");
-        try {
-            Thread.sleep(200);
-        } catch (InterruptedException ex) {
-            System.err.println(ex);
-        }
-//        try {
-//            pyPhySocket.close(); // Also closes input and output streams
-//        } catch (IOException ex) {
-//            System.err.println("Failed to close pyPhySocket.  IOException: " + ex);
-//        }
     }
     
     private void exit() {

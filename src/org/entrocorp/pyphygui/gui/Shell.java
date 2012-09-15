@@ -153,7 +153,7 @@ public class Shell extends JPanel implements KeyListener {
                 // Parse the command
                 boolean didParseCommand = internalParser.parse(command);
                 if (!didParseCommand) {
-                    didParseCommand = parser.parse(command);
+                    didParseCommand = parser.parse(command, this);
                 }
                 if (!didParseCommand) {
                     println("Command not recognized.  Type 'help' for a list of commands.");

@@ -6,18 +6,32 @@ package org.entrocorp.pyphygui.world;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.event.EventListenerList;
 
 /**
- * Insert class description here
+ * Represents a simulation world.
  *
  * @author Nick Nigro <nicholasnigro@yahoo.com>
  * Created Aug 20, 2012
  */
 public class World {
     // All the object in this world
-    List<PObject> objects;
+    private List<PObject> objects;
     
     public World() {
         objects = new ArrayList<PObject>();
     }
+    
+    /* --------- WorldListener ---------- */
+    
+    private EventListenerList listenerList = new EventListenerList();
+    
+    public void addWorldListener(WorldListener listener) {
+        listenerList.add(WorldListener.class, listener);
+    }
+    
+    public void removeWorldListener(WorldListener listener) {
+        listenerList.remove(WorldListener.class, listener);
+    }
+   
 }

@@ -20,13 +20,11 @@ public class ShellParser {
     private static String forwardingString = "pyc/";
     
     private Communicator comm;
-    private Shell shell;
     
     public ShellParser(Communicator comm, Shell shell) {
         super();
         
         this.comm = comm;
-        this.shell = shell;
     }
     
     /**
@@ -35,7 +33,7 @@ public class ShellParser {
      * @param command The command to parse.
      * @return true if the command was successfully parsed, false otherwise.
      */
-    public boolean parse(String command) {
+    public boolean parse(String command, Shell shell) {
         String sentCommand;
         if (command.substring(0, forwardingString.length()).equals(forwardingString)) {
             sentCommand = command.substring(forwardingString.length());

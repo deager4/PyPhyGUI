@@ -92,6 +92,8 @@ public class PyPhyGUI {
         comm.start();
         comm.sendMessage("Testing");
         
+        newWorld();
+        
         // Setup GUI
         new PyPhyFrame();
     } 
