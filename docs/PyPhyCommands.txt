@@ -60,3 +60,23 @@ optional params:
 >>> Set the object with the given id's rotation to the newly specified rotation
 ex. setrotation 2 -r2 50
 ex. setrotation 1 -r1 75 -r2 -72 -r3 1020
+
+Information sent from PyPhy to PyPhyGUI:
+
+start update
+>>> Indicate to the java program that a series of updated objects are about to be sent.  This command has the effect of creating a buffer in which to store any sent updates until the end update command is sent (although the actual implementation of this feature may differ).
+
+update id x y z width height depth r1 r2 r3
+>>> Indicate to the java section of the program that the object with the given id needs to be updated.  If the start update command has been previously sent, the java program will wait to update its GUI until the end update command is sent.  This has the effect of creating a sort of buffer for updates, thus reducing the number of times the GUI needs to be redrawn.  IF the start update command hasn't been sent, then this update will take effect as soon as possible.
+ex. update 1 0 5 0 10 10 10 0 90 45
+
+end update
+>>> Indicate to the java program that the series of sent, updated objects is over and the program should now update its GUI to reflect the changes.  This command has the effect of flushing the buffer previously created by start update (although the actual implementation may vary).  If start update hasn't been previously called, this command has no effect.
+
+print message
+>>> Prints this message to the shell
+ex. print Failed to initialize object with id: 5
+
+println message
+>>> Equivalent to sending the command: print message\n (prints message followed by a newline)
+ex. println Failed to initialize object with name: "testobject"
