@@ -29,15 +29,18 @@ public class Communicator extends Thread {
     private static final String DELIMITER = "|nln|";
     private static final String DELIMITER_REGEX = "\\|nln\\|";
     
-    Socket pyPhySocket;
-    Scanner input;
-    InputStream inputStream;
-    PrintWriter output;
-    Queue<String> messages;
+    private Socket pyPhySocket;
+    private Scanner input;
+    private InputStream inputStream;
+    private PrintWriter output;
+    private Queue<String> messages;
+    private PyPhyParser parser;
     
     
     public Communicator() {
         super("PyPhyGUI Communicator");
+        
+        parser = new PyPhyParser();
         
         // Setup server
         System.out.println("Setting up server");
