@@ -15,7 +15,7 @@ import javax.swing.event.EventListenerList;
  * Created Aug 20, 2012
  */
 public class World {
-    // All the object in this world
+    // All the objects in this world
     private List<PObject> objects;
     
     public World() {
