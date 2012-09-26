@@ -72,7 +72,7 @@ public class Communicator extends Thread {
             exit();
         }
         
-        // Succesfully connected to PyPhy
+        /* Succesfully connected to PyPhy
         System.out.println("Successfully connected to PyPhy");
         System.out.println("Closing server");
         try {
@@ -80,6 +80,8 @@ public class Communicator extends Thread {
         } catch (IOException ex) {
             System.err.println("Failed to close server.  IOException: " + ex);
         }
+        */
+        
         
         // Do initialization
         messages = new ArrayDeque();
